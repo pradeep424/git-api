@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <style>
+        .main{
+            text-align: center;
+        }
+        .twitter-timeline{
+            margin-right: 70%;
+        }
+    </style>
+</head>
+<body>
+    <div id="loading">
+        Loading...
+
+    </div>
+    <div class="main" id="mainContainer" hidden>
+        <img 
+        id="profileImage"
+        height="100"
+        width="100"
+    >
+    <h2 id="fullName"></h2>
+    <h3 id="bio"></h3>
+    <p>
+        Check me on <a id="githubLink">Github</a>
+    </p>
+    <ul id="repos">My Repos
+
+    </ul>
+    <!--
+
+    <a  class="twitter-timeline" 
+        data-width="320" 
+        data-height="410" 
+        href="https://twitter.com/pradip424?ref_src=twsrc%5Etfw">Tweets by pradip424</a> 
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    -->
+    
+
+    </div>
+    
+    <script>
+        fetch('https://api.github.com/users/PradeepBudhathoki')
+            .then(response=>response.json())
+            .then(function(data){
+                document.getElementById('profileImage').src=data['avatar_url']
+                document.getElementById('fullName').textContent=data['name']
+                document.getElementById('bio').textContent=data['bio']
+                document.getElementById('githubLink').href=data['html_url']
+                document.getElementById('mainContainer').hidden=false
+                document.getElementById('loading').hidden=true
+                document.getElementById('repos').href=data['repos_url']
+            })
+        fetch('https://api.github.com/users/PradeepBudhathoki/repos')
+            .then(response=>response.json())
+            .then(function(repos){
+                
+                for (let i in repos) {
+
+                    
+                    let ul = document.getElementById('repos');
+
+                    
+                    let li = document.createElement('li');
+
+
+                    
+
+                    
+                    li.innerHTML = (`
+                        <hr/>
+                        <p><strong>Repo:</strong> ${repos[i].name}</p>
+                        <p><strong>Description:</strong> ${repos[i].description}</p>
+                        <p><strong>URL:</strong> <a href="${repos[i].html_url}">${repos[i].html_url}</a></p>
+                        
+                    `);
+
+                    
+                    ul.appendChild(li);
+                    
+                    
+                }
+            })
+                
+                
+           
+    </script>
+    
+
+</body>
+</html>
